@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addCart } from '../redux/action/ProductAction';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const CheckOut = () => {
 	const cartData = JSON.parse(localStorage.getItem('lists'));
@@ -40,7 +41,7 @@ const CheckOut = () => {
 			dispatch(addCart(data));
 		});
 		localStorage.removeItem('lists');
-
+		toast.success('badai xa');
 		navigate('/');
 	};
 	return (

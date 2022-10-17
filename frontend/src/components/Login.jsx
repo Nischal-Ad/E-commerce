@@ -1,12 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { loginUser, registerUser } from '../redux/action/ProductAction';
 
 export const Login = () => {
 	const dispatch = useDispatch();
+
+	const navigate = useNavigate();
+
+	const { loading, authorized, message, error } = useSelector(
+		(state) => state.loginUser
+	);
 
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
@@ -20,6 +27,16 @@ export const Login = () => {
 		dispatch(loginUser(data));
 	};
 
+	useEffect(() => {
+		if (error) {
+			toast.error(message);
+		}
+
+		if (authorized) {
+			console.log(authorized);
+			toast.success(message);
+		}
+	}, [error, navigate, authorized, message]);
 	return (
 		<>
 			<div className='d-flex justify-content-center p-4 display-5'>Login</div>
@@ -50,7 +67,12 @@ export const Login = () => {
 						onChange={(e) => setPassword(e.target.value)}
 					/>
 				</div>
-				<button className='btn btn-warning text-white mx-3' onClick={login}>
+				<button
+					className={` ${
+						loading && 'disabled'
+					} btn btn-warning text-white mx-3`}
+					onClick={login}
+				>
 					Submit
 				</button>
 			</div>
@@ -61,6 +83,10 @@ export const Login = () => {
 export const Register = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+
+	const { create, loading, message, error } = useSelector(
+		(state) => state.registerUser
+	);
 
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
@@ -80,8 +106,16 @@ export const Register = () => {
 			address: address,
 		};
 		dispatch(registerUser(data));
-		navigate('/');
 	};
+	useEffect(() => {
+		if (error) {
+			toast.error(message);
+		}
+		if (create) {
+			toast.success(message);
+			navigate('/');
+		}
+	}, [error, navigate, message, create]);
 	return (
 		<>
 			{' '}
@@ -155,7 +189,7 @@ export const Register = () => {
 						<Button
 							variant='warning'
 							type='submit'
-							className='text-white  mx-3'
+							className={` ${loading && 'disabled'} text-white  mx-3`}
 						>
 							Submit
 						</Button>

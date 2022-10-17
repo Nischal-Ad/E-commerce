@@ -46,7 +46,9 @@ export const getregisterUser = createReducer(
 		},
 		[registerUser.fulfilled]: (state, action) => {
 			state.loading = false;
-			state.user = action.payload;
+			state.message = action.payload.message;
+			state.error = action.payload.error;
+			state.create = action.payload.create;
 		},
 		[registerUser.rejected]: (state, action) => {
 			state.loading = false;

@@ -14,9 +14,8 @@ export const NavbarPage = () => {
 	const logout = () => {
 		sessionStorage.removeItem('userData');
 		sessionStorage.removeItem('authorized');
-		navigate('/');
-
 		window.location.reload();
+		navigate('/');
 	};
 
 	return (

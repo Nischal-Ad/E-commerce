@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import Loading from '../components/Loading';
 
 const getLocalItems = () => {
@@ -16,9 +17,12 @@ const getLocalItems = () => {
 
 const SinglePage = () => {
 	const [qty, setQty] = useState(1);
+	const [alert, setAlert] = useState(false);
 	const [data, setData] = useState(getLocalItems());
 
 	const { slug } = useParams();
+
+	const navigate = useNavigate();
 
 	const { loading, products } = useSelector((state) => state.products);
 
@@ -27,7 +31,7 @@ const SinglePage = () => {
 	const submitData = (id) => {
 		const prevItem = data?.find(({ product_id }) => product_id === id);
 		if (!prevItem) {
-			window.location.reload();
+			setAlert(true);
 			return setData(() => [
 				...data,
 				{
@@ -38,7 +42,8 @@ const SinglePage = () => {
 				},
 			]);
 		} else {
-			window.location.reload();
+			setAlert(true);
+
 			return setData(
 				data.map((obj) => {
 					const prodDetails = products.find(({ id }) => id === obj.product_id);
@@ -59,7 +64,12 @@ const SinglePage = () => {
 	console.log(data);
 	useEffect(() => {
 		localStorage.setItem('lists', JSON.stringify(data));
-	}, [data]);
+		if (alert) {
+			toast.success('product added to cart successfull');
+			setAlert(false);
+			navigate('/');
+		}
+	}, [data, alert, navigate]);
 	return (
 		<>
 			{loading ? (

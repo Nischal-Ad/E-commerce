@@ -33,7 +33,7 @@ export const registerUser = createAsyncThunk('registerUser', async (data) => {
 	const { email, password, name, confirm_password, phoneno, address } = data;
 	try {
 		const config = { headers: { 'Content-Type': 'application/json' } };
-		const response = await axios.post(
+		await axios.post(
 			`http://127.0.0.1:8000/api/register`,
 			{
 				name: name,
@@ -45,9 +45,15 @@ export const registerUser = createAsyncThunk('registerUser', async (data) => {
 			},
 			config
 		);
-		return response.data;
+		return {
+			message: 'badai xa',
+			create: true,
+		};
 	} catch (error) {
-		return 'ea bandhu k ho para yesto same email rekhna ta milanani hou';
+		return {
+			message: 'ea bandhu k ho para yesto same email rekhna ta milanani hou',
+			error: true,
+		};
 	}
 });
 
