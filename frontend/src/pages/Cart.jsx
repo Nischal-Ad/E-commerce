@@ -20,11 +20,17 @@ const Cart = () => {
 
 	const cartData = JSON.parse(localStorage.getItem('lists'));
 
+	const removeAll = () => {
+		window.location.reload();
+		return localStorage.removeItem('lists');
+	};
+
 	const removeItem = (id) => {
 		const delCart = data?.find(({ product_id }) => product_id === id);
 
 		const findIndex = data?.indexOf(delCart);
 		data.splice(findIndex, 1);
+		window.location.reload();
 		return setData([...data]);
 	};
 	useEffect(() => {
@@ -47,6 +53,14 @@ const Cart = () => {
 				<>
 					<div className='container my-5'>
 						<h1>Your Cart</h1>
+						{cartData && (
+							<button
+								className='btn btn-warning mb-2 text-white'
+								onClick={removeAll}
+							>
+								Delete All Cart
+							</button>
+						)}
 						<table className='table'>
 							<thead>
 								<tr>

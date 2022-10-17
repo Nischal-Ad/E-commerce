@@ -9,6 +9,8 @@ export const NavbarPage = () => {
 	const authorized = JSON.parse(sessionStorage.getItem('authorized'));
 	const navigate = useNavigate();
 
+	const cartData = JSON.parse(localStorage.getItem('lists'));
+
 	const logout = () => {
 		sessionStorage.removeItem('userData');
 		sessionStorage.removeItem('authorized');
@@ -38,7 +40,10 @@ export const NavbarPage = () => {
 						Products
 					</Link>
 					<Link className='nav-link active' to={'/Products/cart'}>
-						Cart
+						Cart{' '}
+						<span className='rounded-circle bg-light px-2 '>
+							{cartData ? cartData?.length : '0'}{' '}
+						</span>
 					</Link>
 					{authorized ? (
 						<>
