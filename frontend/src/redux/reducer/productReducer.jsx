@@ -29,7 +29,7 @@ export const getLoginUser = createReducer(
 			state.user = action.payload.user;
 			state.authorized = action.payload.authorized;
 			state.message = action.payload.message;
-			state.error = action.payload.error;
+			state.error = action.payload;
 		},
 		[loginUser.rejected]: (state, action) => {
 			state.loading = false;

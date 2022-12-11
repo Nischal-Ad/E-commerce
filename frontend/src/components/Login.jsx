@@ -29,9 +29,8 @@ export const Login = () => {
 
 	useEffect(() => {
 		if (error) {
-			toast.error(message);
+			toast.error(error);
 		}
-
 		if (authorized) {
 			console.log(authorized);
 			toast.success(message);
@@ -40,7 +39,7 @@ export const Login = () => {
 	return (
 		<>
 			<div className='d-flex justify-content-center p-4 display-5'>Login</div>
-			<div className='container w-50 my-5'>
+			<form onSubmit={login} className='container w-50 my-5'>
 				<div className='mb-3 mt-3'>
 					<label htmlFor='email' className='form-label'>
 						Email:
@@ -71,11 +70,10 @@ export const Login = () => {
 					className={` ${
 						loading && 'disabled'
 					} btn btn-warning text-white mx-3`}
-					onClick={login}
 				>
 					Submit
 				</button>
-			</div>
+			</form>
 		</>
 	);
 };
